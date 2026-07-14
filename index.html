@@ -49,15 +49,47 @@ font-size:35px;
 
 <h1>Clevers Lakeview Resort</h1>
 
-<h2 id="guest">Loading...</h2>
+<h1>Welcome <span id="guestName">Guest</span></h1>
 
-<p id="room"></p>
+<p>Room: <span id="roomNumber"></span></p>
 
-<p id="checkout"></p>
-
-<p id="wifi"></p>
+<p>Check Out: <span id="checkout"></span></p>
 
 </div>
 
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbx6TJEqFg6d75MyxVtMTypJupYlXd8PdEw9Qlt1-0KV0eHyoS0MF8nRfIUoyt26fADb8A/exec";
+
+const params = new URLSearchParams(window.location.search);
+const roomNumber = params.get("room");
+
+if (!roomNumber) {
+    document.getElementById("guestName").innerHTML = "Room number missing";
+} else {
+
+    fetch(API_URL + "?room=" + roomNumber)
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.error) {
+            document.getElementById("guestName").innerHTML = data.error;
+            return;
+        }
+
+        document.getElementById("guestName").innerHTML = data.guest;
+        document.getElementById("roomNumber").innerHTML = roomNumber;
+        document.getElementById("checkout").innerHTML = data.checkOut;
+
+    })
+    .catch(error => {
+        document.getElementById("guestName").innerHTML = "Connection error";
+        console.log(error);
+    });
+
+}
+
+</script>
+  
 </body>
 </html>
