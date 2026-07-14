@@ -9,24 +9,39 @@
 <style>
 
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0c2340;
-    color: white;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin:0;
+    font-family:Arial, sans-serif;
+    color:white;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background-image:
+    linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+    ),
+    url("lakeview.jpg");
+
+    background-size:cover;
+    background-position:center;
 }
+
 
 .card {
-    width: 800px;
-    padding: 40px;
-    border-radius: 20px;
-    background: rgba(255,255,255,0.1);
-    text-align: center;
-}
 
+    width:850px;
+    padding:50px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,0.12);
+
+    backdrop-filter:blur(8px);
+
+    text-align:center;
+
+}
 h1 {
     font-size: 50px;
 }
@@ -42,19 +57,30 @@ p {
 <body>
 
 <div class="card">
+    <img src="logo.png" 
+style="
+width:220px;
+margin-bottom:20px;
+">
 
 <h1>Clevers Lakeview Resort</h1>
 
 <h1>
-Welcome <span id="guestName">Loading...</span>
+Welcome to Clevers Lakeview Resort
 </h1>
 
+<h2>
+<span id="guestName">Loading...</span>
+</h2>
 <p>
 Room: <span id="roomNumber">---</span>
 </p>
 
 <p>
 Check Out: <span id="checkout">---</span>
+</p>
+    <p>
+We hope you enjoy your stay with us 🌅
 </p>
 
 <p>
