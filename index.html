@@ -70,9 +70,12 @@ const API_URL = "https://script.google.com/macros/s/AKfycbzye4wOGubUxe-s5VMSB7Q-
 
 
 // Get room number from the TV link
-const urlParams = new URLSearchParams(window.location.search);
+let room = localStorage.getItem("room");
 
-const room = urlParams.get("room");
+if (!room) {
+    room = prompt("Enter room number");
+    localStorage.setItem("room", room);
+}
 
 
 if (!room) {
