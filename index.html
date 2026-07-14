@@ -3,40 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Clevers SmartStay</title>
 
 <style>
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#0c2340;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0c2340;
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.card{
-
-width:800px;
-padding:40px;
-border-radius:20px;
-background:rgba(255,255,255,.1);
-
+.card {
+    width: 800px;
+    padding: 40px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.1);
+    text-align: center;
 }
 
-h1{
-
-font-size:50px;
-
+h1 {
+    font-size: 50px;
 }
 
-h2{
-
-font-size:35px;
-
+p {
+    font-size: 30px;
 }
 
 </style>
@@ -49,51 +45,102 @@ font-size:35px;
 
 <h1>Clevers Lakeview Resort</h1>
 
-<h1>Welcome <span id="guestName">Guest</span></h1>
+<h1>
+Welcome <span id="guestName">Loading...</span>
+</h1>
 
-<p>Room: <span id="roomNumber"></span></p>
+<p>
+Room: <span id="roomNumber">---</span>
+</p>
 
-<p>Check Out: <span id="checkout"></span></p>
+<p>
+Check Out: <span id="checkout">---</span>
+</p>
+
+<p>
+WiFi: <span id="wifi">---</span>
+</p>
 
 </div>
 
+
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbzye4wOGubUxe-s5VMSB7Q-oU8cllJktSqGAjnxuAWTl1o-6SLeQ0hlPO9_7901XZ5OmQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx6TJEqFg6d75MyxVtMTypJupYlXd8PdEw9Qlt1-0KV0eHyoS0MF8nRfIUoyt26fADb8A/exec";
 
-let roomNumber = localStorage.getItem("room");
 
-if (!roomNumber) {
-    roomNumber = prompt("Enter Room Number");
-    localStorage.setItem("room", roomNumber);
-}
+// Get room number from the TV link
+const urlParams = new URLSearchParams(window.location.search);
 
-if (!roomNumber) {
-    document.getElementById("guestName").innerHTML = "Room number missing";
-} else {
+const room = urlParams.get("room");
 
-    fetch(API_URL + "?room=" + roomNumber)
-    .then(response => response.json())
-    .then(data => {
 
-        if (data.error) {
-            document.getElementById("guestName").innerHTML = data.error;
-            return;
-        }
+if (!room) {
 
-        document.getElementById("guestName").innerHTML = data.guest;
-        document.getElementById("roomNumber").innerHTML = roomNumber;
-        document.getElementById("checkout").innerHTML = data.checkOut;
-
-    })
-    .catch(error => {
-        document.getElementById("guestName").innerHTML = "Connection error";
-        console.log(error);
-    });
+    document.getElementById("guestName").innerHTML =
+    "Room number missing";
 
 }
+
+else {
+
+
+fetch(API_URL + "?room=" + room)
+
+.then(response => response.json())
+
+.then(data => {
+
+
+console.log("Received data:", data);
+
+
+if(data.error){
+
+document.getElementById("guestName").innerHTML =
+data.error;
+
+return;
+
+}
+
+
+// Display information
+
+document.getElementById("guestName").innerHTML =
+data.guest || "Guest";
+
+
+document.getElementById("roomNumber").innerHTML =
+data.room || room;
+
+
+document.getElementById("checkout").innerHTML =
+data.checkOut || "-";
+
+
+document.getElementById("wifi").innerHTML =
+data.wifi || "-";
+
+
+})
+
+
+.catch(error => {
+
+console.log(error);
+
+document.getElementById("guestName").innerHTML =
+"Unable to connect";
+
+});
+
+
+}
+
 
 </script>
-  
+
+
 </body>
 </html>
